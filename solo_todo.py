@@ -2,6 +2,8 @@ import selenium
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import random
+import string
 
 #SOLOTODO AUTOMATIZACION
 
@@ -67,4 +69,27 @@ def mod_pas(mail,passw,new_pass):#modificar password
     mod_button = driver.find_elements_by_xpath("//input[@type='submit' and @value='Enviar']")[0]
     mod_button.click()
 
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
+
+def fuerza_bruta():
+    driver = spawn()
+    driver.get("https://www.solotodo.cl/account/login")
+    input_email = driver.find_element_by_id("exampleInputEmail1")
+    input_pass = driver.find_element_by_id("password")
+    
+    input_email.send_keys("pepe@yopmail.com")
+
+    i=0
+    while(i<=100):
+        input_pass.clear()
+        input_pass.send_keys(get_random_string(10))
+        login_button = driver.find_elements_by_xpath("//input[@type='submit' and @value='Ingresar']")[0]
+        login_button.click()
+        time.sleep(1)
+        i += 1
+
+fuerza_bruta()
